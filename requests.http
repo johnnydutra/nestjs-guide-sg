@@ -7,7 +7,7 @@ POST http://localhost:3000/messages
 content-type: application/json
 
 {
-  "content": "test"
+  "content": "message after DI"
 }
 
 ### Get a particular message
