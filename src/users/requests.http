@@ -3,12 +3,12 @@ POST http://localhost:3000/auth/signup
 content-type: application/json
 
 {
-  "email": "test2@test.com",
+  "email": "test3@test.com",
   "password": "test1234"
 }
 
 ### Find a particular user with a given id
-GET http://localhost:3000/auth/1
+GET http://localhost:3000/auth/3
 
 ### Find all users with a given email
 GET http://localhost:3000/auth?test@test.com
