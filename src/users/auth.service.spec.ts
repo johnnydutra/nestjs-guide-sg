@@ -9,10 +9,22 @@ describe('AuthService', () => {
   let fakeUsersService: Partial<UsersService>;
 
   beforeEach(async () => {
+    const users: User[] = [];
+
     fakeUsersService = {
-      find: () => Promise.resolve([]),
-      create: (email: string, password: string) =>
-        Promise.resolve({ id: 1, email, password } as User),
+      find: (email: string) => {
+        const filteredUsers = users.filter((user) => user.email === email);
+        return Promise.resolve(filteredUsers);
+      },
+      create: (email: string, password: string) => {
+        const user = {
+          id: Math.floor(Math.random() * 999999),
+          email,
+          password,
+        } as User;
+        users.push(user);
+        return Promise.resolve(user);
+      },
     };
 
     const module = await Test.createTestingModule({
@@ -60,5 +72,12 @@ describe('AuthService', () => {
     await expect(
       service.signin('laskdjf@alskdfj.com', 'passowrd'),
     ).rejects.toThrow(BadRequestException);
+  });
+
+  it('returns an user if correct password is provided', async () => {
+    await service.signup('asdf@asdf.com', 'mypassword');
+
+    const user = await service.signin('asdf@asdf.com', 'mypassword');
+    expect(user).toBeDefined();
   });
 });
